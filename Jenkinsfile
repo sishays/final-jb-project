@@ -27,14 +27,9 @@ pipeline {
         }
         stage('Build') {
             steps {
-                withCredentials([[
-                    $class: 'AmazonWebServicesCredentialsBinding',
-                    credentialsId: "AWScreds",
-                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-                ]]) {
-                    sh "cat $CRED > credentials"
-                    sh "cat $CONFIG > config"
+                withCredentials([file(credentialsId: 'AWSconfig', variable: 'AWS_CONFIG_PATH'), file(credentialsId: 'AWScreds', variable: 'AWS_SECRET_PATH')]) {
+                    //sh "cat $CRED > credentials"
+                    //sh "cat $CONFIG > config"
                     sh "docker build -t ${IMAGE} ."
                     sh "rm -f credentials config"
                 }
