@@ -31,7 +31,7 @@ COPY config credentials ./
 #RUN mkdir /home/${USER}/.aws && \
 #    mv config /home/${USER}/.aws && \
 #    mv credentials /home/${USER}/.aws
-#COPY --from=builder /app .
+COPY --from=builder /app .
 #RUN pip install -r requirements.txt \
 #    -f /app \
 #    && rm -rf *.whl \
