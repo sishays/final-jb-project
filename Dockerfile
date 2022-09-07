@@ -28,14 +28,14 @@ RUN useradd -ms /bin/bash ${USER}
 USER ${USER}
 WORKDIR /home/${USER}
 COPY config credentials ./
-RUN mkdir /home/${USER}/.aws && \
-    mv config /home/${USER}/.aws && \
-    mv credentials /home/${USER}/.aws
-COPY --from=builder /app .
-RUN pip install -r requirements.txt \
-    -f /app \
-    && rm -rf *.whl \
-    && rm -rf /root/.cache/pip/*
+#RUN mkdir /home/${USER}/.aws && \
+#    mv config /home/${USER}/.aws && \
+#    mv credentials /home/${USER}/.aws
+#COPY --from=builder /app .
+#RUN pip install -r requirements.txt \
+#    -f /app \
+#    && rm -rf *.whl \
+#    && rm -rf /root/.cache/pip/*
 RUN mkdir /home/${USER}/.aws && \
     mv config /home/${USER}/.aws && \
     mv credentials /home/${USER}/.aws && \
