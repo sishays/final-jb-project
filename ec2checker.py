@@ -1,5 +1,6 @@
 import boto3
-import sys
+#import sys
+import os
 import time
 
 def scan_instances():
@@ -33,10 +34,12 @@ def scan_instances():
         print("Instance name: {0}\nIP address: {1}\nType: {2}\n***".format(ec2_name, ec2_ip, ec2_type))
 
 # Main
-try:
-    interval = sys.argv[1]
-except IndexError:
-    interval = None
+#try:
+#    interval = sys.argv[1]
+#except IndexError:
+#    interval = None
+
+interval = os.environ.get('INTERVAL')
 
 if interval == None:
     scan_instances()
