@@ -7,8 +7,8 @@ pipeline {
         NAME = "ishays"
         VERSION = "${env.BUILD_ID}"
         IMAGE = "${NAME}:${VERSION}"
-        CRED = credentials('credentials')
-        CONFIG = credentials('config')
+        //CRED = credentials('credentials')
+        //CONFIG = credentials('config')
     }
 
     stages {
