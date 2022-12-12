@@ -43,17 +43,11 @@ pipeline {
             }
         }
         stage('Increment tag in Helm') {
-            when {
-                succuess {}
-            }
             steps {
                 sh "echo 'If previous step was successful, use yq to change the tag the helm chart'"
             }
         }
         stage('Commit changes and merge to master') {
-            when {
-                succuess {}
-            }
             steps {
                 sh "echo 'here we will commit the updated helm to the dev repo and merge all changes into mater"
             }
