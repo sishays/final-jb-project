@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: final-jb-project-cm
+  labels:
+    {{- include "final-jb-project.labels . | nindent 4 }}
+data:
+    INTERVAL: {{ .Values.env.INTERVAL | quote }}
