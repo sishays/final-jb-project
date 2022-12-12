@@ -49,7 +49,7 @@ pipeline {
         }
         stage('Commit changes and merge to master') {
             steps {
-                sh "echo 'here we will commit the updated helm to the dev repo and merge all changes into mater"
+                sh "echo 'here we will commit the updated helm to the dev repo and merge all changes into master'"
             }
         }
     }
