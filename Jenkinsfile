@@ -7,8 +7,6 @@ pipeline {
         NAME = "ishays"
         VERSION = "${env.BUILD_ID}"
         IMAGE = "${NAME}:${VERSION}"
-        //CRED = credentials('credentials')
-        //CONFIG = credentials('config')
     }
 
     stages {
@@ -42,12 +40,16 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'docker_login_creds', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                     sh "echo 'This is the deploy step, might replace it later to push stage?'"
                     sh "echo ${DOCKER_USERNAME} and ${DOCKER_PASSWORD}"
+                    // sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
+                    // sh "docker push ${IMAGE}"
                 }
             }
         }
         stage('Increment tag in Helm') {
             steps {
                 sh "echo 'If previous step was successful, use yq to change the tag the helm chart'"
+                // sh "yq eval -i '.env.INTERVAL = ${params.INTERVAL}' final-jb-project/values.yaml"
+                // sh "yq eval -i '.image.tag = ${VERSION}' final-jb-project/values.yaml"
             }
         }
         stage('Commit changes and merge to master') {
