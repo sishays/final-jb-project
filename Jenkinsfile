@@ -1,3 +1,4 @@
+// properties([pipelineTriggers([githubPush(branch: 'development')])])
 pipeline {
     agent any
     parameters {
@@ -25,16 +26,16 @@ pipeline {
         }
         stage('Build') {
             steps {
-                // withCredentials([file(credentialsId: 'AWSconfig', variable: 'AWS_CONFIG_PATH'), file(credentialsId: 'AWScreds', variable: 'AWS_CREDS_PATH')]) {
-                    // sh "cp $AWS_CONFIG_PATH config"
-                    // sh "cp $AWS_CREDS_PATH credentials"
+                // withCredentials([file(credentialsId: 'AWSconfig', variable: 'AWS_CONFIG_FILE'), file(credentialsId: 'AWScreds', variable: 'AWS_CREDS_FILE')]) {
+                    // sh "cp $AWS_CONFIG_FILE config"
+                    // sh "cp $AWS_CREDS_FILE credentials"
                     // sh "docker build -t ${IMAGE} ."
                     // sh "rm -f credentials config"
                     sh "echo 'This is the build step running'"
                 // }
             }
         }
-        stage('Deploy') {
+        stage('Upload image to Docker Hub') {
             steps {
                 // sh "docker run -itd --name ${NAME} --env INTERVAL=${params.INTERVAL} ${IMAGE}"
                 withCredentials([usernamePassword(credentialsId: 'docker_login_creds', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
@@ -48,13 +49,21 @@ pipeline {
         stage('Increment tag in Helm') {
             steps {
                 sh "echo 'If previous step was successful, use yq to change the tag the helm chart'"
-                // sh "yq eval -i '.env.INTERVAL = ${params.INTERVAL}' final-jb-project/values.yaml"
-                // sh "yq eval -i '.image.tag = ${VERSION}' final-jb-project/values.yaml"
+                sh "yq eval -i '.env.INTERVAL = ${params.INTERVAL}' final-jb-project/values.yaml"
+                sh "yq eval -i '.image.tag = ${VERSION}' final-jb-project/values.yaml"
             }
         }
         stage('Commit changes and merge to master') {
             steps {
-                sh "echo 'here we will commit the updated helm to the dev repo and merge all changes into master'"
+                sshagent (credentials: ['jenkins-ssh']) {
+                    sh "echo 'here we will commit the updated helm to the dev repo and merge all changes into master'"
+                    sh 'git add .'
+                    sh 'git commit -m "Build ${VERSION} commit"'
+                    sh 'git push -u origin development'
+                    sh 'git checkout master'
+                    sh 'git merge dev'
+                    sh 'git push origin master'
+                }
             }
         }
     }
