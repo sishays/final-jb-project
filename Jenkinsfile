@@ -61,7 +61,7 @@ pipeline {
                     sh 'git add .'
                     sh 'git commit -m "Build ${VERSION} commit"'
                     // sh 'git remote set-url origin https://final-jb-project:${git-token}@github.com/sishays/final-jb-project.git'
-                    sh 'git remote add origin https://${GITLAB_API_TOKEN}@github.com/sishays/final-jb-project.git'
+                    // sh 'git remote add origin https://${GITLAB_API_TOKEN}@github.com/sishays/final-jb-project.git'
                     sh 'git push -u https://${GITLAB_API_TOKEN}@github.com/sishays/final-jb-project.git development'
                     sh 'git checkout master'
                     sh 'git merge dev'
