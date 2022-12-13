@@ -21,7 +21,7 @@ pipeline {
         }
         stage('SCM') {
             steps {
-                git url: 'git@github.com:sishays/final-jb-project.git', branch: 'development', credentialsId: 'jenkins-ssh'
+                git url: 'https://github.com/sishays/final-jb-project.git', branch: 'development', credentialsId: 'git-token'
             }
         }
         stage('Build') {
@@ -55,15 +55,15 @@ pipeline {
         }
         stage('Commit changes and merge to master') {
             steps {
-                sshagent (credentials: ['jenkins-ssh']) {
-                    sh "echo 'here we will commit the updated helm to the dev repo and merge all changes into master'"
-                    sh 'git add .'
-                    sh 'git commit -m "Build ${VERSION} commit"'
-                    sh 'git push -u origin development'
-                    sh 'git checkout master'
-                    sh 'git merge dev'
-                    sh 'git push origin master'
-                }
+                // sshagent (credentials: ['jenkins-ssh']) {
+                sh "echo 'here we will commit the updated helm to the dev repo and merge all changes into master'"
+                sh 'git add .'
+                sh 'git commit -m "Build ${VERSION} commit"'
+                sh 'git push -u origin development'
+                sh 'git checkout master'
+                sh 'git merge dev'
+                sh 'git push origin master'
+                // }
             }
         }
     }
