@@ -15,6 +15,7 @@ Make sure you have the following jenkins plugins installed:</br>
 Workspace Cleanup</br>
 Credentials</br>
 Credentials Binding</br>
+SSH agent</br>
 
 
 In Jenkins credentials, under global credentials config the following secret files:</br>
