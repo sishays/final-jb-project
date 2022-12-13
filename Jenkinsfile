@@ -21,7 +21,7 @@ pipeline {
         }
         stage('SCM') {
             steps {
-                git url: 'https://github.com/sishays/final-jb-project.git', branch: 'development', credentialsId: 'git-token'
+                git url: 'git@github.com:sishays/final-jb-project.git', branch: 'development', credentialsId: 'jenkins-ssh-agent'
             }
         }
         stage('Build') {
@@ -55,14 +55,14 @@ pipeline {
         }
         stage('Commit changes and merge to master') {
             steps {
-                // sshagent (credentials: ['jenkins-ssh']) {
-                withCredentials([usernamePassword(credentialsId: 'github_api_token', usernameVariable: 'DISCARD', passwordVariable: 'GITLAB_API_TOKEN')]) {
+                sshagent (credentials: ['jenkins-ssh-agent']) {
+                // withCredentials([usernamePassword(credentialsId: 'github_api_token', usernameVariable: 'DISCARD', passwordVariable: 'GITLAB_API_TOKEN')]) {
                     sh "echo 'here we will commit the updated helm to the dev repo and merge all changes into master'"
                     sh 'git add .'
                     sh 'git commit -m "Build ${VERSION} commit"'
                     // sh 'git remote set-url origin https://final-jb-project:${git-token}@github.com/sishays/final-jb-project.git'
                     // sh 'git remote add origin https://${GITLAB_API_TOKEN}@github.com/sishays/final-jb-project.git'
-                    sh 'git push -u https://${GITLAB_API_TOKEN}@github.com/sishays/final-jb-project.git development'
+                    sh 'git push -u development'
                     sh 'git checkout master'
                     sh 'git merge dev'
                     sh 'git push origin master'
