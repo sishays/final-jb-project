@@ -56,14 +56,16 @@ pipeline {
         stage('Commit changes and merge to master') {
             steps {
                 // sshagent (credentials: ['jenkins-ssh']) {
-                sh "echo 'here we will commit the updated helm to the dev repo and merge all changes into master'"
-                sh 'git add .'
-                sh 'git commit -m "Build ${VERSION} commit"'
-                sh 'git push -u origin development'
-                sh 'git checkout master'
-                sh 'git merge dev'
-                sh 'git push origin master'
-                // }
+                withCredentials([string(credentialsId: 'git-token', variable: 'git-token')]) {
+                    sh "echo 'here we will commit the updated helm to the dev repo and merge all changes into master'"
+                    sh 'git add .'
+                    sh 'git commit -m "Build ${VERSION} commit"'
+                    sh 'git remote set-url origin https://final-jb-project:${git-token}@github.com/sishays/final-jb-project.git'
+                    sh 'git push -u origin development'
+                    sh 'git checkout master'
+                    sh 'git merge dev'
+                    sh 'git push origin master'
+                }
             }
         }
     }
