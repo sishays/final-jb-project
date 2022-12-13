@@ -21,7 +21,7 @@ pipeline {
         }
         stage('SCM') {
             steps {
-                git url: 'https://github.com/sishays/final-jb-project.git', branch: 'development'
+                git url: 'git@github.com:sishays/final-jb-project.git', branch: 'development'
             }
         }
         stage('Build') {
