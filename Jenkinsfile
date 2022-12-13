@@ -64,7 +64,7 @@ pipeline {
                     // sh 'git remote add origin https://${GITLAB_API_TOKEN}@github.com/sishays/final-jb-project.git'
                     sh 'git push -u origin development'
                     sh 'git checkout master'
-                    sh 'git merge dev'
+                    sh 'git merge development'
                     sh 'git push origin master'
                 }
             }
