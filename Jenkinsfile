@@ -39,7 +39,10 @@ pipeline {
         stage('Deploy') {
             steps {
                 // sh "docker run -itd --name ${NAME} --env INTERVAL=${params.INTERVAL} ${IMAGE}"
-                sh "echo 'This is the deploy step, might replace it later to push stage?'"
+                withCredentials([usernamePassword(credentialsId: 'docker_login_creds', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    sh "echo 'This is the deploy step, might replace it later to push stage?'"
+                    sh "echo ${DOCKER_USERNAME} and ${DOCKER_PASSWORD}"
+                }
             }
         }
         stage('Increment tag in Helm') {
