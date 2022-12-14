@@ -8,6 +8,7 @@ pipeline {
         NAME = "ishays"
         VERSION = "${env.BUILD_ID}"
         IMAGE = "${NAME}:${VERSION}"
+        DOCKER_REPO = "ishays/final-jb-project"
     }
 
     stages {
@@ -26,12 +27,12 @@ pipeline {
         }
         stage('Build') {
             steps {
-                // withCredentials([file(credentialsId: 'AWSconfig', variable: 'AWS_CONFIG_FILE'), file(credentialsId: 'AWScreds', variable: 'AWS_CREDS_FILE')]) {
-                    // sh "cp $AWS_CONFIG_FILE config"
-                    // sh "cp $AWS_CREDS_FILE credentials"
-                    // sh "docker build -t ${IMAGE} ."
-                    // sh "rm -f credentials config"
-                    sh "echo 'This is the build step running'"
+                withCredentials([file(credentialsId: 'AWSconfig', variable: 'AWS_CONFIG_FILE'), file(credentialsId: 'AWScreds', variable: 'AWS_CREDS_FILE')]) {
+                    sh "cp $AWS_CONFIG_FILE config"
+                    sh "cp $AWS_CREDS_FILE credentials"
+                    sh "docker build -t ${IMAGE} ."
+                    sh "rm -f credentials config"
+                    // sh "echo 'This is the build step running'"
                 // }
             }
         }
@@ -39,10 +40,10 @@ pipeline {
             steps {
                 // sh "docker run -itd --name ${NAME} --env INTERVAL=${params.INTERVAL} ${IMAGE}"
                 withCredentials([usernamePassword(credentialsId: 'docker_login_creds', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                    sh "echo 'This is the deploy step, might replace it later to push stage?'"
-                    sh "echo ${DOCKER_USERNAME} and ${DOCKER_PASSWORD}"
-                    // sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
-                    // sh "docker push ${IMAGE}"
+                    // sh "echo 'This is the deploy step, might replace it later to push stage?'"
+                    // sh "echo ${DOCKER_USERNAME} and ${DOCKER_PASSWORD}"
+                    sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
+                    sh "docker push ${IMAGE} ${DOCKER_REPO}"
                 }
             }
         }
