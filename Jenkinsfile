@@ -33,7 +33,7 @@ pipeline {
                     sh "docker build -t ${IMAGE} ."
                     sh "rm -f credentials config"
                     // sh "echo 'This is the build step running'"
-                // }
+                }
             }
         }
         stage('Upload image to Docker Hub') {
