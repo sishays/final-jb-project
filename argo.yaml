@@ -1,0 +1,13 @@
+project: default
+source:
+  repoURL: 'git@github.com:sishays/final-jb-project.git'
+  path: final-jb-project
+  targetRevision: master
+destination:
+  server: 'https://kubernetes.default.svc'
+  namespace: argo
+syncPolicy:
+  automated:
+    selfHeal: true
+  syncOptions:
+    - CreateNamespace=true
