@@ -35,6 +35,9 @@ aws_secret_access_key=<your AWS secret access key>
 ```
 
 In Jenkins credentials, as the above, also configure your kubeconfig credentials for connecting to your k8s cluster, your ssh creds for accessing your github repository.
-In your repository define a dev branch along the master branch, and define a webhook in your repository, so that for every suceesfull commit in your dev branch it auto merges to master. 
+In your repository define a dev branch along the master branch, and define a webhook in your repository, so that for every sucessfull commit in your dev branch it auto merges to master. 
 
+Create a private docker hub image repository for the succesfull builds and add these credentials (user+pass) as well to Jenkins credentials, in order for the build job to be able to use docker login and docker push to your private docker hub repo. 
+
+In Jenkins, configure a new pipepline project that uses the git repo as the pipeline script. It will detect the jenkinsfile and configure the jenkins script.
 
