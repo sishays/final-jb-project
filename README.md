@@ -34,6 +34,7 @@ aws_access_key_id=<your AWS access key id>
 aws_secret_access_key=<your AWS secret access key>
 ```
 
+## Instructions :</br>
 In Jenkins credentials, as the above, also configure your kubeconfig credentials for connecting to your k8s cluster, your ssh creds for accessing your github repository.
 In your repository define a dev branch along the master branch, and define a webhook in your repository, so that for every sucessfull commit in your dev branch it auto merges to master. 
 
