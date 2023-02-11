@@ -35,7 +35,7 @@ aws_secret_access_key=<your AWS secret access key>
 ```
 
 ## Instructions :</br>
-In Jenkins credentials, as the above, also configure your kubeconfig credentials for connecting to your k8s cluster, your ssh creds for accessing your github repository. Don't forget to install ArgoCD in your cluster beforehand. You may choose to deploy using helm (https://argo-cd.readthedocs.io/en/stable/operator-manual/installation/#helm) or any other preferred method.
+In Jenkins credentials, as the above, also configure your kubeconfig credentials for connecting to your k8s cluster, your ssh creds for accessing your github repository. Don't forget to install ArgoCD in your cluster beforehand. You may choose to deploy using helm (https://argo-cd.readthedocs.io/en/stable/operator-manual/installation/#helm) or any other preferred method.</br>
 In your repository define a dev branch along the master branch, and define a webhook in your repository, so that for every sucessfull commit in your dev branch it auto merges to master. 
 
 Create a private docker hub image repository for the succesfull builds and add these credentials (user+pass) as well to Jenkins credentials, in order for the build job to be able to use docker login and docker push to your private docker hub repo. 
